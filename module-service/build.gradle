@@ -1,3 +1,4 @@
 dependencies {
     implementation project(':module-repository')
+    implementation 'org.modelmapper:modelmapper:3.1.0'
 }

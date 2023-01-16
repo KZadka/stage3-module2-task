@@ -12,8 +12,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-//TODO Validation
+
 public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
+
+    private static final String NON_EXISTED_ID = "News with that ID does not exist";
 
     private final BaseRepository<NewsModel, Long> repository;
     private final ModelMapper modelMapper;
@@ -36,7 +38,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         if (newsModel.isPresent()) {
             return modelMapper.map(newsModel, NewsDtoResponse.class);
         } else {
-            throw new ResourceNotFoundException(2010, "News with that ID does not exist");
+            throw new ResourceNotFoundException(2010, NON_EXISTED_ID);
         }
     }
 
@@ -44,9 +46,11 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
         NewsModel newsModel = modelMapper.map(createRequest, NewsModel.class);
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
         newsModel.setCreateDate(date);
         newsModel.setLastUpdateDate(date);
         repository.create(newsModel);
+
         return modelMapper.map(newsModel, NewsDtoResponse.class);
     }
 
@@ -54,11 +58,13 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
         if (repository.existById(updateRequest.getId())) {
             NewsModel newsModel = modelMapper.map(updateRequest, NewsModel.class);
+
             newsModel.setLastUpdateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             repository.update(newsModel);
+
             return modelMapper.map(newsModel, NewsDtoResponse.class);
         } else {
-            throw new ResourceNotFoundException(2010, "News with that ID does not exist");
+            throw new ResourceNotFoundException(2010, NON_EXISTED_ID);
         }
     }
 
@@ -67,7 +73,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         if (repository.existById(id)) {
             return repository.deleteById(id);
         } else {
-            throw new ResourceNotFoundException(2010, "News with that ID does not exist.");
+            throw new ResourceNotFoundException(2010, NON_EXISTED_ID);
         }
     }
 }

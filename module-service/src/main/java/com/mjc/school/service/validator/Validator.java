@@ -1,5 +1,6 @@
 package com.mjc.school.service.validator;
 
+import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.exception.ValidatorException;
@@ -11,6 +12,8 @@ public class Validator {
     private static final Integer CONTENT_MIN_LENGTH = 5;
     private static final Integer CONTENT_MAX_LENGTH = 255;
     private static final Integer AUTHOR_MAX_ID = 20;
+    private static final Integer NAME_MIN_LENGTH = 3;
+    private static final Integer NAME_MAX_LENGTH = 15;
 
     public void validateTitle(String title) {
         if (title == null) {
@@ -40,10 +43,23 @@ public class Validator {
         }
     }
 
-    public void validateDto(NewsDtoRequest request) {
+    public void validateAuthorName(String name) {
+        if (name == null) {
+            throw new ValidatorException(1000, "Name cannot be null.");
+        } else if (name.trim().length() < NAME_MIN_LENGTH || name.trim().length() > NAME_MAX_LENGTH) {
+            throw new ValidatorException(1010, "Name length should be between 3 and 15 characters.");
+        }
+    }
+
+    public void validateNewsDto(NewsDtoRequest request) {
         validateId(request.getAuthorId());
         validateAuthorId(request.getAuthorId());
         validateTitle(request.getTitle());
         validateContent(request.getContent());
+    }
+
+    public void validateAuthorDto(AuthorDtoRequest request) {
+        validateId(request.getId());
+        validateAuthorName(request.getName());
     }
 }

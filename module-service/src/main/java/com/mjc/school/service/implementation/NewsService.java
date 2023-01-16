@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-
+//TODO Validation
 public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
 
     private final BaseRepository<NewsModel, Long> repository;

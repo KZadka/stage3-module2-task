@@ -4,7 +4,9 @@ import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.exception.ValidatorException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Validator {
 
     private static final Integer TITLE_MIN_LENGTH = 5;

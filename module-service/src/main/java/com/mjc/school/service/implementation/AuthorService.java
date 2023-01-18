@@ -8,6 +8,8 @@ import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.validator.Validator;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

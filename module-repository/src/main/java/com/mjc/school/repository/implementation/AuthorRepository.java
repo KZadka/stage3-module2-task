@@ -3,11 +3,13 @@ package com.mjc.school.repository.implementation;
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.data.DataSource;
 import com.mjc.school.repository.model.implementation.AuthorModel;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class AuthorRepository implements BaseRepository<AuthorModel, Long> {
 
     private final DataSource dataSource;

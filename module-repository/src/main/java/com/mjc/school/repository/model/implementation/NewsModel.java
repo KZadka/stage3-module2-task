@@ -23,6 +23,9 @@ public class NewsModel implements BaseEntity<Long> {
         this.authorId = authorId;
     }
 
+    public NewsModel() {
+    }
+
     @Override
     public Long getId() {
         return id;

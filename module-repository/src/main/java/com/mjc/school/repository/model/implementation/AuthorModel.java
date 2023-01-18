@@ -19,6 +19,9 @@ public class AuthorModel implements BaseEntity<Long> {
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    public AuthorModel() {
+    }
+
     @Override
     public Long getId() {
         return id;

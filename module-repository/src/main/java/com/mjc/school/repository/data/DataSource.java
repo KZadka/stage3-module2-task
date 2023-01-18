@@ -2,6 +2,7 @@ package com.mjc.school.repository.data;
 
 import com.mjc.school.repository.model.implementation.AuthorModel;
 import com.mjc.school.repository.model.implementation.NewsModel;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Component
 public class DataSource {
 
     private static final int LINES_IN_FILE = 30;
@@ -40,7 +42,7 @@ public class DataSource {
         List<AuthorModel> authorModels = new ArrayList<>();
         LocalDateTime date = dateCreator();
         for (int i = 1; i <= NUMBER_OF_NEWS_AND_AUTHORS; ++i) {
-            authorModels.add(new AuthorModel((long) i, readFile("author.txt"), date, date));
+            authorModels.add(new AuthorModel((long) i, readFile("authors"), date, date));
         }
         return authorModels;
     }
@@ -49,7 +51,9 @@ public class DataSource {
         List<NewsModel> newsModels = new ArrayList<>();
         LocalDateTime date = dateCreator();
         for (int i = 1; i <= NUMBER_OF_NEWS_AND_AUTHORS; ++i) {
-            newsModels.add(new NewsModel((long) i, readFile("news.txt"), readFile("content.txt"), date, date, authors.get(random.nextInt(authors.size())).getId()));
+            newsModels.add(new NewsModel((long) i, readFile("news"),
+                    readFile("content"), date, date,
+                    authors.get(random.nextInt(authors.size())).getId()));
         }
         return newsModels;
     }

@@ -21,10 +21,15 @@ public class Main {
                 utils.menu();
                 switch (input.nextLine()) {
                     case "1" -> utils.getAllNews();
-                    case "2" -> utils.getNewsById(input);
-                    case "3" -> utils.createNews(input);
-                    case "4" -> utils.updateNews(input);
-                    case "5" -> utils.deleteNews(input);
+                    case "2" -> utils.getAllAuthors();
+                    case "3" -> utils.getNewsById(input);
+                    case "4" -> utils.getAuthorById(input);
+                    case "5" -> utils.createNews(input);
+                    case "6" -> utils.createAuthor(input);
+                    case "7" -> utils.updateNews(input);
+                    case "8" -> utils.updateAuthor(input);
+                    case "9" -> utils.deleteNews(input);
+                    case "10" -> utils.deleteAuthor(input);
                     case "0" -> System.exit(0);
                     default -> System.out.println("Wrong input, please try again.");
                 }

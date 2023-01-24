@@ -101,4 +101,53 @@ public class Utils {
         }
     }
 
+    public void getAllAuthors() {
+        authorController.readAll().forEach(System.out::println);
+    }
+
+    public void getAuthorById(Scanner input) {
+        System.out.println("Enter author id:");
+        System.out.println(authorController.readById(userNumberValidation(input)));
+    }
+
+    public void createAuthor(Scanner input) {
+        boolean isValid = false;
+        AuthorDtoRequest request = null;
+
+        while (!isValid) {
+            try {
+                System.out.println("Enter author name:");
+                String name = input.nextLine();
+                request = new AuthorDtoRequest(null, name);
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println(authorController.create(request));
+    }
+
+    public void updateAuthor(Scanner input) {
+        boolean isValid = false;
+        AuthorDtoRequest request = null;
+
+        while (!isValid) {
+            try {
+                System.out.println("Enter id of author to update:");
+                Long authorId = userNumberValidation(input);
+                System.out.println("Enter author name:");
+                String name = input.nextLine();
+                request = new AuthorDtoRequest(authorId, name);
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println(authorController.update(request));
+    }
+
+    public void deleteAuthor(Scanner input) {
+        System.out.println("Enter id of author to delete:");
+        System.out.println(authorController.deleteById(userNumberValidation(input)));
+    }
 }

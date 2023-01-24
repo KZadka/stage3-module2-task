@@ -5,24 +5,27 @@ import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
+import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.exception.ValidatorException;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 @Component
-public class Utils {
+public class Menu {
 
     private final BaseController<NewsDtoRequest, NewsDtoResponse, Long> newsController;
     private final BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController;
 
-    public Utils(BaseController<NewsDtoRequest, NewsDtoResponse, Long> newsController,
-                 BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController) {
+    public Menu(BaseController<NewsDtoRequest, NewsDtoResponse, Long> newsController,
+                BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController) {
         this.newsController = newsController;
         this.authorController = authorController;
     }
 
-    public void menu() {
+    Scanner input = new Scanner(System.in);
+
+    public void menuScreen() {
         System.out.println("Pick a number for operation: ");
         System.out.println("1. Get all news");
         System.out.println("2. Get all authors");
@@ -37,6 +40,33 @@ public class Utils {
         System.out.println("0. Exit program");
     }
 
+    public void start() {
+        boolean running = true;
+        while (running) {
+            try {
+                menuScreen();
+                switch (input.nextLine()) {
+                    case "1" -> getAllNews();
+                    case "2" -> getAllAuthors();
+                    case "3" -> getNewsById(input);
+                    case "4" -> getAuthorById(input);
+                    case "5" -> createNews(input);
+                    case "6" -> createAuthor(input);
+                    case "7" -> updateNews(input);
+                    case "8" -> updateAuthor(input);
+                    case "9" -> deleteNews(input);
+                    case "10" -> deleteAuthor(input);
+                    case "0" -> {running = false;
+                                System.exit(0);}
+                    default -> System.out.println("Wrong input, please try again.");
+                }
+            } catch (ValidatorException e) {
+                System.out.println(e.getMessage() + " Error code: " + e.getErrorCode());
+            } catch (ResourceNotFoundException e) {
+                System.out.println(e.getMessage() + " Error code: " + e.getErrorCode());
+            }
+        }
+    }
     public void getAllNews() {
         newsController.readAll().forEach(System.out::println);
     }

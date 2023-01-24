@@ -7,7 +7,8 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
-import com.mjc.school.service.validation.Validator;
+import com.mjc.school.service.validation.ValidateAuthorParam;
+import com.mjc.school.service.validation.ValidateNumber;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,11 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
     private final BaseRepository<AuthorModel, Long> repository;
     private final ModelMapper modelMapper;
-    private final Validator validator;
 
-    public AuthorService(BaseRepository<AuthorModel, Long> repository, ModelMapper modelMapper,
-                         Validator validator) {
+
+    public AuthorService(BaseRepository<AuthorModel, Long> repository, ModelMapper modelMapper) {
         this.repository = repository;
         this.modelMapper = modelMapper;
-        this.validator = validator;
     }
 
     @Override
@@ -40,8 +39,8 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
+    @ValidateNumber
     public AuthorDtoResponse readById(Long id) {
-        validator.validateId(id);
         Optional<AuthorModel> authorModel = repository.readById(id);
         if (authorModel.isPresent()) {
             return modelMapper.map(authorModel, AuthorDtoResponse.class);
@@ -51,8 +50,8 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
+    @ValidateAuthorParam
     public AuthorDtoResponse create(AuthorDtoRequest createRequest) {
-        validator.validateAuthorName(createRequest.getName());
         AuthorModel authorModel = modelMapper.map(createRequest, AuthorModel.class);
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
@@ -64,8 +63,8 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
+    @ValidateAuthorParam
     public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
-        validator.validateAuthorDto(updateRequest);
         if (repository.existById(updateRequest.getId())) {
             AuthorModel authorModel = modelMapper.map(updateRequest, AuthorModel.class);
 
@@ -81,8 +80,8 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
     @Override
     @OnDelete
+    @ValidateNumber
     public boolean deleteById(Long id) {
-        validator.validateId(id);
         if (repository.existById(id)) {
             return repository.deleteById(id);
         } else {

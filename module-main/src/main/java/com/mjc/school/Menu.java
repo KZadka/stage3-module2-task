@@ -56,8 +56,10 @@ public class Menu {
                     case "8" -> updateAuthor(input);
                     case "9" -> deleteNews(input);
                     case "10" -> deleteAuthor(input);
-                    case "0" -> {running = false;
-                                System.exit(0);}
+                    case "0" -> {
+                        running = false;
+                        System.exit(0);
+                    }
                     default -> System.out.println("Wrong input, please try again.");
                 }
             } catch (ValidatorException e) {
@@ -67,13 +69,14 @@ public class Menu {
             }
         }
     }
+
     public void getAllNews() {
         newsController.readAll().forEach(System.out::println);
     }
 
     public void getNewsById(Scanner input) {
         System.out.println("Enter news id:");
-        System.out.println(newsController.readById(userNumberValidation(input)));
+        System.out.println(newsController.readById(userNumber(input)));
     }
 
     public void createNews(Scanner input) {
@@ -87,7 +90,7 @@ public class Menu {
                 System.out.println("Enter news content:");
                 String content = input.nextLine();
                 System.out.println("Enter author id:");
-                Long authorId = userNumberValidation(input);
+                Long authorId = userNumber(input);
                 request = new NewsDtoRequest(null, title, content, authorId);
                 isValid = true;
             } catch (Exception e) {
@@ -104,13 +107,13 @@ public class Menu {
         while (!isValid) {
             try {
                 System.out.println("Enter id of news to update:");
-                Long newsId = userNumberValidation(input);
+                Long newsId = userNumber(input);
                 System.out.println("Enter news title:");
                 String title = input.nextLine();
                 System.out.println("Enter news content:");
                 String content = input.nextLine();
                 System.out.println("Enter author id:");
-                Long authorId = userNumberValidation(input);
+                Long authorId = userNumber(input);
                 request = new NewsDtoRequest(newsId, title, content, authorId);
                 isValid = true;
             } catch (Exception e) {
@@ -122,10 +125,10 @@ public class Menu {
 
     public void deleteNews(Scanner input) {
         System.out.println("Enter id of news to delete:");
-        System.out.println(newsController.deleteById(userNumberValidation(input)));
+        System.out.println(newsController.deleteById(userNumber(input)));
     }
 
-    private long userNumberValidation(Scanner input) {
+    private long userNumber(Scanner input) {
         try {
             long userNumber = input.nextLong();
             input.nextLine();
@@ -142,7 +145,7 @@ public class Menu {
 
     public void getAuthorById(Scanner input) {
         System.out.println("Enter author id:");
-        System.out.println(authorController.readById(userNumberValidation(input)));
+        System.out.println(authorController.readById(userNumber(input)));
     }
 
     public void createAuthor(Scanner input) {
@@ -169,7 +172,7 @@ public class Menu {
         while (!isValid) {
             try {
                 System.out.println("Enter id of author to update:");
-                Long authorId = userNumberValidation(input);
+                Long authorId = userNumber(input);
                 System.out.println("Enter author name:");
                 String name = input.nextLine();
                 request = new AuthorDtoRequest(authorId, name);
@@ -183,6 +186,6 @@ public class Menu {
 
     public void deleteAuthor(Scanner input) {
         System.out.println("Enter id of author to delete:");
-        System.out.println(authorController.deleteById(userNumberValidation(input)));
+        System.out.println(authorController.deleteById(userNumber(input)));
     }
 }

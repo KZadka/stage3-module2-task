@@ -1,6 +1,7 @@
 package com.mjc.school.service.dto;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class AuthorDtoResponse {
@@ -38,7 +39,7 @@ public class AuthorDtoResponse {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return createDate.truncatedTo(ChronoUnit.SECONDS);
     }
 
     public void setCreateDate(LocalDateTime createDate) {
@@ -46,7 +47,7 @@ public class AuthorDtoResponse {
     }
 
     public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
+        return lastUpdateDate.truncatedTo(ChronoUnit.SECONDS);
     }
 
     public void setLastUpdateDate(LocalDateTime lastUpdateDate) {

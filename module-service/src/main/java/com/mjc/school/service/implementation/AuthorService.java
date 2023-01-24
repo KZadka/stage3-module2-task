@@ -69,6 +69,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
         if (repository.existById(updateRequest.getId())) {
             AuthorModel authorModel = modelMapper.map(updateRequest, AuthorModel.class);
 
+            authorModel.setCreateDate(repository.readById(updateRequest.getId()).get().getCreateDate());
             authorModel.setLastUpdateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             repository.update(authorModel);
 

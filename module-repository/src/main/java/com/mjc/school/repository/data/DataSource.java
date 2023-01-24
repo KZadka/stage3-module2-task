@@ -40,8 +40,9 @@ public class DataSource {
 
     private List<AuthorModel> getAuthorsInternally() {
         List<AuthorModel> authorModels = new ArrayList<>();
-        LocalDateTime date = dateCreator();
+
         for (int i = 1; i <= NUMBER_OF_NEWS_AND_AUTHORS; ++i) {
+            LocalDateTime date = dateCreator();
             authorModels.add(new AuthorModel((long) i, readFile("authors"), date, date));
         }
         return authorModels;
@@ -49,8 +50,9 @@ public class DataSource {
 
     private List<NewsModel> getNewsInternally() {
         List<NewsModel> newsModels = new ArrayList<>();
-        LocalDateTime date = dateCreator();
+
         for (int i = 1; i <= NUMBER_OF_NEWS_AND_AUTHORS; ++i) {
+            LocalDateTime date = dateCreator();
             newsModels.add(new NewsModel((long) i, readFile("news"),
                     readFile("content"), date, date,
                     authors.get(random.nextInt(authors.size())).getId()));

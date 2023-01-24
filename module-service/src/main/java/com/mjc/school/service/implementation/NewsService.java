@@ -68,6 +68,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
         if (repository.existById(updateRequest.getId())) {
             NewsModel newsModel = modelMapper.map(updateRequest, NewsModel.class);
 
+            newsModel.setCreateDate(repository.readById(updateRequest.getId()).get().getCreateDate());
             newsModel.setLastUpdateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             repository.update(newsModel);
 

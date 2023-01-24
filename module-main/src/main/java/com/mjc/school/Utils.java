@@ -25,10 +25,15 @@ public class Utils {
     public void menu() {
         System.out.println("Pick a number for operation: ");
         System.out.println("1. Get all news");
-        System.out.println("2. Get news by id");
-        System.out.println("3. Create news");
-        System.out.println("4. Update news by id");
-        System.out.println("5. Delete news by id");
+        System.out.println("2. Get all authors");
+        System.out.println("3. Get news by id");
+        System.out.println("4. Get author by id");
+        System.out.println("5. Create news");
+        System.out.println("6. Create author");
+        System.out.println("7. Update news by id");
+        System.out.println("8. Update author by id");
+        System.out.println("9. Delete news by id");
+        System.out.println("10. Delete author by id");
         System.out.println("0. Exit program");
     }
 

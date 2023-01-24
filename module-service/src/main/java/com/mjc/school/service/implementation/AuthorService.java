@@ -1,6 +1,7 @@
 package com.mjc.school.service.implementation;
 
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.annotation.OnDelete;
 import com.mjc.school.repository.model.implementation.AuthorModel;
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
@@ -8,8 +9,6 @@ import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.validator.Validator;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -80,6 +79,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
+    @OnDelete
     public boolean deleteById(Long id) {
         validator.validateId(id);
         if (repository.existById(id)) {

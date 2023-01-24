@@ -7,7 +7,7 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
-import com.mjc.school.service.validator.Validator;
+import com.mjc.school.service.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

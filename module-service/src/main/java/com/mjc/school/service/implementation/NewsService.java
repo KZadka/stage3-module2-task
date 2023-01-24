@@ -6,7 +6,9 @@ import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
-import com.mjc.school.service.validator.Validator;
+import com.mjc.school.service.validation.ValidateNewsParam;
+import com.mjc.school.service.validation.ValidateNumber;
+import com.mjc.school.service.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,10 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
 
     private final BaseRepository<NewsModel, Long> repository;
     private final ModelMapper modelMapper;
-    private final Validator validator;
 
-    public NewsService(BaseRepository<NewsModel, Long> repository, ModelMapper modelMapper,
-                       Validator validator) {
+    public NewsService(BaseRepository<NewsModel, Long> repository, ModelMapper modelMapper) {
         this.repository = repository;
         this.modelMapper = modelMapper;
-        this.validator = validator;
     }
 
     @Override
@@ -39,8 +38,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
+    @ValidateNumber
     public NewsDtoResponse readById(Long id) {
-        validator.validateId(id);
         Optional<NewsModel> newsModel = repository.readById(id);
         if (newsModel.isPresent()) {
             return modelMapper.map(newsModel, NewsDtoResponse.class);
@@ -50,8 +49,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
+    @ValidateNewsParam
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
-        validator.validateNewsDto(createRequest);
         NewsModel newsModel = modelMapper.map(createRequest, NewsModel.class);
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
@@ -63,8 +62,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
+    @ValidateNewsParam
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
-        validator.validateNewsDto(updateRequest);
         if (repository.existById(updateRequest.getId())) {
             NewsModel newsModel = modelMapper.map(updateRequest, NewsModel.class);
 
@@ -79,8 +78,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
+    @ValidateNumber
     public boolean deleteById(Long id) {
-        validator.validateId(id);
         if (repository.existById(id)) {
             return repository.deleteById(id);
         } else {

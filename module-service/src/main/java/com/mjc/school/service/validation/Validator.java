@@ -1,4 +1,4 @@
-package com.mjc.school.service.validator;
+package com.mjc.school.service.validation;
 
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.NewsDtoRequest;
@@ -54,10 +54,9 @@ public class Validator {
     }
 
     public void validateNewsDto(NewsDtoRequest request) {
-        validateId(request.getAuthorId());
-        validateAuthorId(request.getAuthorId());
         validateTitle(request.getTitle());
         validateContent(request.getContent());
+        validateId(request.getAuthorId());
     }
 
     public void validateAuthorDto(AuthorDtoRequest request) {

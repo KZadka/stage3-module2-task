@@ -2,8 +2,8 @@ package com.mjc.school.repository.annotation;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.implementation.NewsModel;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class DeletingAspect {
         this.repository = repository;
     }
 
-    @Before("@annotation(OnDelete) && args(id)")
+    @AfterReturning("@annotation(OnDelete) && args(id)")
     public void deleteAllEntitiesWithId(Long id) {
         List<NewsModel> newsToDelete = repository.readAll()
                 .stream()

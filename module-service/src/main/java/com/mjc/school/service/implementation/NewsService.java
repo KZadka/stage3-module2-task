@@ -8,7 +8,6 @@ import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.validation.ValidateNewsParam;
 import com.mjc.school.service.validation.ValidateNumber;
-import com.mjc.school.service.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

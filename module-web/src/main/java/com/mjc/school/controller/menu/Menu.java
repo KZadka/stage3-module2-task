@@ -1,4 +1,4 @@
-package com.mjc.school;
+package com.mjc.school.controller.menu;
 
 import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.command.*;

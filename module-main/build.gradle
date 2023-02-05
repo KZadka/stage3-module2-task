@@ -6,9 +6,6 @@ mainClassName = 'com.mjc.school.Main'
 
 dependencies {
     implementation project(':module-web')
-
-    implementation project(path: ':module-service')
-    implementation 'org.modelmapper:modelmapper:3.1.0'
 }
 
 run {

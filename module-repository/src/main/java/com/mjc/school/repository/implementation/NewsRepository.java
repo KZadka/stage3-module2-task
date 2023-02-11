@@ -3,6 +3,7 @@ package com.mjc.school.repository.implementation;
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.data.DataSource;
 import com.mjc.school.repository.model.implementation.NewsModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class NewsRepository implements BaseRepository<NewsModel, Long> {
 
     private final DataSource dataSource;
 
+    @Autowired
     public NewsRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }

@@ -1,9 +1,12 @@
 package com.mjc.school.service.dto;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+@Component
 public class NewsDtoResponse {
 
     private Long id;

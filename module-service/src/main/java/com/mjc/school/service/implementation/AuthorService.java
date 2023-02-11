@@ -10,6 +10,7 @@ import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.validation.ValidateAuthorParam;
 import com.mjc.school.service.validation.ValidateNumber;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,18 +23,18 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
     private static final String NON_EXISTED_ID = "Author with that ID does not exist";
 
-    private final BaseRepository<AuthorModel, Long> repository;
+    private final BaseRepository<AuthorModel, Long> authorRepository;
     private final ModelMapper modelMapper;
 
-
-    public AuthorService(BaseRepository<AuthorModel, Long> repository, ModelMapper modelMapper) {
-        this.repository = repository;
+    @Autowired
+    public AuthorService(BaseRepository<AuthorModel, Long> authorRepository, ModelMapper modelMapper) {
+        this.authorRepository = authorRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public List<AuthorDtoResponse> readAll() {
-        return repository.readAll().stream()
+        return authorRepository.readAll().stream()
                 .map(authorModel -> modelMapper.map(authorModel, AuthorDtoResponse.class))
                 .toList();
     }
@@ -41,7 +42,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     @Override
     @ValidateNumber
     public AuthorDtoResponse readById(Long id) {
-        Optional<AuthorModel> authorModel = repository.readById(id);
+        Optional<AuthorModel> authorModel = authorRepository.readById(id);
         if (authorModel.isPresent()) {
             return modelMapper.map(authorModel, AuthorDtoResponse.class);
         } else {
@@ -57,7 +58,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
 
         authorModel.setCreateDate(date);
         authorModel.setLastUpdateDate(date);
-        repository.create(authorModel);
+        authorRepository.create(authorModel);
 
         return modelMapper.map(authorModel, AuthorDtoResponse.class);
     }
@@ -65,12 +66,12 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     @Override
     @ValidateAuthorParam
     public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
-        if (repository.existById(updateRequest.getId())) {
+        if (authorRepository.existById(updateRequest.getId())) {
             AuthorModel authorModel = modelMapper.map(updateRequest, AuthorModel.class);
 
-            authorModel.setCreateDate(repository.readById(updateRequest.getId()).get().getCreateDate());
+            authorModel.setCreateDate(authorRepository.readById(updateRequest.getId()).get().getCreateDate());
             authorModel.setLastUpdateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-            repository.update(authorModel);
+            authorRepository.update(authorModel);
 
             return modelMapper.map(authorModel, AuthorDtoResponse.class);
         } else {
@@ -82,8 +83,8 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     @OnDelete
     @ValidateNumber
     public boolean deleteById(Long id) {
-        if (repository.existById(id)) {
-            return repository.deleteById(id);
+        if (authorRepository.existById(id)) {
+            return authorRepository.deleteById(id);
         } else {
             throw new ResourceNotFoundException(2010, NON_EXISTED_ID);
         }

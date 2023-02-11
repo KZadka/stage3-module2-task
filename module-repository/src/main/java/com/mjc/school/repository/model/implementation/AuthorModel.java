@@ -1,10 +1,12 @@
 package com.mjc.school.repository.model.implementation;
 
 import com.mjc.school.repository.model.BaseEntity;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Component
 public class AuthorModel implements BaseEntity<Long> {
 
     private Long id;

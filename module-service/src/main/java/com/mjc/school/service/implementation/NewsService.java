@@ -9,6 +9,7 @@ import com.mjc.school.service.exception.ResourceNotFoundException;
 import com.mjc.school.service.validation.ValidateNewsParam;
 import com.mjc.school.service.validation.ValidateNumber;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,17 +22,18 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
 
     private static final String NON_EXISTED_ID = "News with that ID does not exist";
 
-    private final BaseRepository<NewsModel, Long> repository;
+    private final BaseRepository<NewsModel, Long> newsRepository;
     private final ModelMapper modelMapper;
 
-    public NewsService(BaseRepository<NewsModel, Long> repository, ModelMapper modelMapper) {
-        this.repository = repository;
+    @Autowired
+    public NewsService(BaseRepository<NewsModel, Long> newsRepository, ModelMapper modelMapper) {
+        this.newsRepository = newsRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public List<NewsDtoResponse> readAll() {
-        return repository.readAll().stream()
+        return newsRepository.readAll().stream()
                 .map(newsModel -> modelMapper.map(newsModel, NewsDtoResponse.class))
                 .toList();
     }
@@ -39,7 +41,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateNumber
     public NewsDtoResponse readById(Long id) {
-        Optional<NewsModel> newsModel = repository.readById(id);
+        Optional<NewsModel> newsModel = newsRepository.readById(id);
         if (newsModel.isPresent()) {
             return modelMapper.map(newsModel, NewsDtoResponse.class);
         } else {
@@ -55,7 +57,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
 
         newsModel.setCreateDate(date);
         newsModel.setLastUpdateDate(date);
-        repository.create(newsModel);
+        newsRepository.create(newsModel);
 
         return modelMapper.map(newsModel, NewsDtoResponse.class);
     }
@@ -63,12 +65,12 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateNewsParam
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
-        if (repository.existById(updateRequest.getId())) {
+        if (newsRepository.existById(updateRequest.getId())) {
             NewsModel newsModel = modelMapper.map(updateRequest, NewsModel.class);
 
-            newsModel.setCreateDate(repository.readById(updateRequest.getId()).get().getCreateDate());
+            newsModel.setCreateDate(newsRepository.readById(updateRequest.getId()).get().getCreateDate());
             newsModel.setLastUpdateDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-            repository.update(newsModel);
+            newsRepository.update(newsModel);
 
             return modelMapper.map(newsModel, NewsDtoResponse.class);
         } else {
@@ -79,8 +81,8 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateNumber
     public boolean deleteById(Long id) {
-        if (repository.existById(id)) {
-            return repository.deleteById(id);
+        if (newsRepository.existById(id)) {
+            return newsRepository.deleteById(id);
         } else {
             throw new ResourceNotFoundException(2010, NON_EXISTED_ID);
         }

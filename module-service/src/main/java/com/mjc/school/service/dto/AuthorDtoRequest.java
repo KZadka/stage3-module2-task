@@ -1,7 +1,10 @@
 package com.mjc.school.service.dto;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
+@Component
 public class AuthorDtoRequest {
 
     private Long id;

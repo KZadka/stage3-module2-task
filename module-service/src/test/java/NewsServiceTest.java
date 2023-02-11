@@ -1,5 +1,3 @@
-package com.mjc.school.service.implementation;
-
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;

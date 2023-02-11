@@ -1,5 +1,3 @@
-package com.mjc.school.service.implementation;
-
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AuthorServiceTest {
 
     @Configuration
-    @ComponentScan(basePackages = {"com.mjc.school", "com.mjc.school.*"})
+    @ComponentScan("com.mjc.school")
     static class Config {
         @Bean
         ModelMapper getModelMapper() {

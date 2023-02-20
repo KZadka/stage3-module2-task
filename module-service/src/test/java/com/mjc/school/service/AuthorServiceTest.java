@@ -1,4 +1,5 @@
-import com.mjc.school.service.BaseService;
+package com.mjc.school.service;
+
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.exception.ResourceNotFoundException;
